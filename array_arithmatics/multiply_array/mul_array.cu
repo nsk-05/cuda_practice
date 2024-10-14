@@ -4,15 +4,15 @@
 
 // CUDA kernel for 2D matrix multiplication
 __global__ void MatMul2D(float* A, float* B, float* C, int N, int M, int K) {
-    int row = blockIdx.y * blockDim.y + threadIdx.y;
-    int col = blockIdx.x * blockDim.x + threadIdx.x;
+    int y = blockIdx.y * blockDim.y + threadIdx.y;
+    int x = blockIdx.x * blockDim.x + threadIdx.x;
 
-    if (row < N && col < K) {
+    if (y < N && x < K) {
         float value = 0;
         for (int i = 0; i < M; i++) {
-            value += A[row * M + i] * B[i * K + col];
+            value += A[y * M + i] * B[i * K + x];
         }
-        C[row * K + col] = value;
+        C[y * K + x] = value;
     }
 }
 
